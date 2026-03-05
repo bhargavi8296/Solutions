@@ -1,42 +1,38 @@
 class Solution {
-    boolean visited[];
     List<List<Integer>>list;
-    public void helper(int node)
+    int[]visited;
+    public void helper(int i)
     {
-        for(int val:list.get(node))
+        if(visited[i]==1){return;}
+        visited[i]=1;
+        for(int val:list.get(i))
         {
-            if(!visited[val])
-            {
-                visited[val]=true;
-                helper(val);
-            }
+            helper(val);
         }
     }
     public int findCircleNum(int[][] isConnected) {
         list=new ArrayList<>();
-        int ver=isConnected.length;
-        visited=new boolean[ver];
-        int res=0;
+        visited=new int[isConnected.length];
+        for(int i=0;i<isConnected.length;++i){list.add(new ArrayList<>());}
         for(int i=0;i<isConnected.length;++i)
         {
-            list.add(new ArrayList());
-            for(int j=0;j<isConnected[i].length;++j)
+            for(int j=0;j<isConnected[0].length;++j)
             {
-                if(isConnected[i][j]==1)
+                if(i!=0&&isConnected[i][j]==1)
                 {
-                    if(i!=j){list.get(i).add(j);}
+                    list.get(i).add(j);list.get(j).add(i);
                 }
             }
         }
-        for(int i=0;i<ver;++i)
+        int count=0;
+        for(int i=0;i<isConnected.length;++i)
         {
-            if(!visited[i])
+            if(visited[i]==0)
             {
-                visited[i]=true;
+                ++count;
                 helper(i);
-                ++res;
             }
         }
-        return res;
+        return count;
     }
 }
