@@ -1,31 +1,26 @@
 class Solution {
+    int color[];
+    int visited[];
+    public boolean helper(int[][]graph,int i)
+    {
+        for(int val:graph[i])
+        {
+            if(visited[val]==0){visited[val]=1;color[val]=color[i]==0?1:0;if(!helper(graph,val)){return false;}}
+            else{if(color[i]==color[val]){return false;}}
+        }
+        return true;
+    }
     public boolean isBipartite(int[][] graph) {
-        int []color=new int[graph.length];
+        color=new int[graph.length];
+        visited=new int[graph.length];
         Arrays.fill(color,-1);
-        Queue<Integer>q=new LinkedList<>();
         for(int i=0;i<graph.length;++i)
         {
             if(color[i]==-1)
             {
                 color[i]=0;
-                q.add(i);
-                while(!q.isEmpty())
-                {
-                    int node=q.remove();
-                    for(int val:graph[node])
-                    {
-                        if(color[val]!=-1)
-                        {
-                            if(color[val]==color[node]){return false;}
-                        }
-                        else
-                        {
-                            color[val]=color[node]==0?1:0;
-                            q.add(val);
-
-                        }
-                    }
-                }
+                visited[i]=1;
+                if(!helper(graph,i)){return false;}
             }
         }
         return true;
