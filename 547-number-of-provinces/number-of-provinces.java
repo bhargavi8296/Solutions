@@ -7,7 +7,10 @@ class Solution {
         visited[i]=1;
         for(int val:list.get(i))
         {
-            helper(val);
+            if(visited[val]==0)
+            {
+                helper(val);
+            }
         }
     }
     public int findCircleNum(int[][] isConnected) {
