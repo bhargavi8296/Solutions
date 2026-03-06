@@ -6,7 +6,6 @@ class Solution {
     {
         for(int val:list.get(i))
         {
-            //System.out.print(val+" "+vis[val]+" ");
             if(vis[val]==0)
             {
                 vis[val]=1;
@@ -34,18 +33,15 @@ class Solution {
         {
             if(vis[i]==0)
             {
-               // System.out.print(i+" "+vis[i]+" ");
                 vis[i]=1;
                 if(!dfs(i)){return new int[0];}
                 vis[i]=2;
             }
-        }
-        
+        }    
         int result[]=new int[res.size()];
         for(int i=0;i<result.length;++i)
         {
             int val=res.pop();
-            System.out.print(val);
             result[i]=val;
         }
         return result;
