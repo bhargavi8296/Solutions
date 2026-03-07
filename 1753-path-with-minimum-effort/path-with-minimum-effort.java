@@ -19,10 +19,14 @@ class Solution {
             {
                 int tr=r+ro[i];
                 int tc=c+co[i];
-                if(tr>=0&&tr<heights.length&&tc>=0&&tc<heights[0].length&&dist[tr][tc]>Math.max(dist[r][c],Math.abs(heights[tr][tc]-heights[r][c])))
+                if(tr>=0&&tr<heights.length&&tc>=0&&tc<heights[0].length)
                 {
-                    dist[tr][tc]=Math.max(dist[r][c],Math.abs(heights[tr][tc]-heights[r][c]));
-                    q.add(new int[]{tr,tc});
+                    int res=Math.max(dist[r][c],Math.abs(heights[tr][tc]-heights[r][c]));
+                    if(dist[tr][tc]>res)
+                    {
+                        dist[tr][tc]=res;
+                        q.add(new int[]{tr,tc});
+                    }
                 }
             }
         }
