@@ -1,33 +1,42 @@
 class Solution {
+    List<List<Integer>>list;
+    List<Integer>result;
+    int in[];
+    int visited[];
+    public void helper(int i)
+    {
+        if(visited[i]==1){return;}
+        visited[i]=1;
+        result.add(i);
+        for(int val:list.get(i))
+        {
+                in[val]--;
+                if(in[val]==0&&visited[val]==0)
+                {
+                helper(val);
+                }
+            
+        }
+    }
     public List<Integer> eventualSafeNodes(int[][] graph) {
-        Queue<Integer>q=new LinkedList<>();
-        int []out=new int[graph.length];
-        List<List<Integer>>list=new ArrayList<>();
+        list=new ArrayList<>();
+        result=new ArrayList<>();
+        in=new int[graph.length];
+        visited=new int[graph.length];
+        for(int i=0;i<graph.length;++i){list.add(new ArrayList<>());}
         for(int i=0;i<graph.length;++i)
         {
-            out[i]=graph[i].length;
-            list.add(new ArrayList<>());
-        }
-        for(int i=0;i<graph.length;++i)
-        {
-            if(out[i]==0){q.add(i);}
-        }
-        for(int i=0;i<graph.length;++i)
-        {
-            for(int j=0;j<graph[i].length;++j)
+            for(int val:graph[i])
             {
-                list.get(graph[i][j]).add(i);
+                in[i]++;
+                list.get(val).add(i);
             }
         }
-        List<Integer>result=new ArrayList<>();
-        while(!q.isEmpty())
+        for(int i=0;i<graph.length;++i)
         {
-            int node=q.remove();
-            result.add(node);
-            for(int val:list.get(node))
+            if(in[i]==0&&visited[i]==0)
             {
-                out[val]-=1;
-                if(out[val]==0){q.add(val);}
+                helper(i);
             }
         }
         Collections.sort(result);
