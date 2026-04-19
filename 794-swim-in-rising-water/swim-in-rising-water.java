@@ -1,46 +1,61 @@
-class pair{
-    int r;
-    int c;
-    int t; 
-    pair(int r, int c, int t)
+class Pair implements Comparable<Pair>{
+    int row;
+    int col;
+    int val;
+    Pair(int row,int col,int val)
     {
-        this.r=r;
-        this.c=c;
-        this.t=t;
+        this.row=row;
+        this.col=col;
+        this.val=val;
+    }
+    public int compareTo(Pair pair)
+    {
+        return this.val>pair.val?1:-1;
     }
 }
 class Solution {
     public int swimInWater(int[][] grid) {
-        Queue<pair>q=new PriorityQueue<>((a,b)->{return a.t-b.t;});
-        q.add(new pair(0,0,grid[0][0]));
-        int n=grid.length;
-        int vis[][]=new int[n][n];
-        for(int i=0;i<n;++i)
+        int res[][]=new int[grid.length][grid[0].length];
+        for(int i=0;i<grid[0].length;++i)
         {
-            Arrays.fill(vis[i],Integer.MAX_VALUE);
+            Arrays.fill(res[i],Integer.MAX_VALUE);
         }
-        vis[0][0]=grid[0][0];
-        while(!q.isEmpty()){
-            pair temp=q.poll();
-            int r= temp.r;
-            int c=temp.c;
-            int t=temp.t;
-            //System.out.println(r+" "+c+"."+t);
-            if(r==n-1&&c==n-1){return t;}
-            int ro[]={0,1,0,-1};
-            int co[]={1,0,-1,0};
+        PriorityQueue<Pair>queue=new PriorityQueue<>();
+        res[0][0]=grid[0][0];
+        queue.add(new Pair(0,0,res[0][0]));
+        while(!queue.isEmpty())
+        {
+            Pair pair=queue.poll();
+            int row=pair.row;
+            int col=pair.col;
+            int val=pair.val;
+            int xx[]={0,0,1,-1};
+            int yy[]={1,-1,0,0};
             for(int i=0;i<4;++i)
             {
-                int tr=r+ro[i];int tc=c+co[i];
-                //System.out.println(tr+" "+tc+" "+grid[tr][tc]+" "+grid[r][c]);
-                if(tr>=0&&tr<n&&tc>=0&&tc<n)
+                int nx=row+xx[i];
+                int ny=col+yy[i];
+                if(nx>=0&&ny>=0&&nx<grid.length&&ny<grid[0].length)
                 {
-                    //System.out.println(tr+" "+tc);
-                    if(grid[tr][tc]<grid[r][c]&&vis[tr][tc]>t){q.add(new pair(tr,tc,t));grid[tr][tc]=t;}
-                    else if(grid[tr][tc]>grid[r][c]&&vis[tr][tc]>t+grid[tr][tc]-grid[r][c]){q.add(new pair(tr,tc,t+grid[tr][tc]-grid[r][c]));grid[tr][tc]=t+grid[tr][tc]-grid[r][c];}
+                    if(res[nx][ny]>res[row][col])
+                    {
+                        if(grid[nx][ny]>grid[row][col])
+                        {
+                            res[nx][ny]=Math.max(grid[nx][ny],val);
+                            queue.add(new Pair(nx,ny,res[nx][ny]));
+                        }
+                        else
+                        {
+                            res[nx][ny]=val;
+                           // System.out.print(res[nx][ny]+" "+nx+" "+ny+" ");
+                            queue.add(new Pair(nx,ny,res[nx][ny]));
+                        }
+                    }
                 }
             }
+            
         }
-        return -1;
+        
+        return res[grid.length-1][grid[0].length-1];
     }
 }
