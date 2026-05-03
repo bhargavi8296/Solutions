@@ -6,11 +6,7 @@ class Solution {
         int result=0;
         for(int i=0;i<nums.length;++i)
         {
-            if(nums[i]%2==0){nums[i]=0;}
-            else{ 
-                nums[i]=1;
-            }
-            sum+=nums[i];
+            sum+=(nums[i]%2==0?0:1);
             result+=map.getOrDefault(sum-k,0);
             map.put(sum,map.getOrDefault(sum,0)+1);
         }
