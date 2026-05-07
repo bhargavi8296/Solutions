@@ -1,31 +1,23 @@
 class Solution {
-    int[][] dp;
-
-    public int helper(int[] nums, int ind, int prev) {
-        if (ind == nums.length) return 0;
-
-        if (dp[ind][prev + 1] != -1)
-            return dp[ind][prev + 1];
-
-        // not take
-        int notTake = helper(nums, ind + 1, prev);
-
-        // take
-        int take = 0;
-        if (prev == -1 || nums[ind] > nums[prev]) {
-            take = 1 + helper(nums, ind + 1, ind);
+    int dp[][];
+    public int helper(int[]nums, int ind, int prev)
+    {
+        if(ind==nums.length){return 0;}
+        if(dp[ind][prev+1]!=-1){return dp[ind][prev+1];}
+        int not_take=helper(nums,ind+1,prev);
+        int take=0;
+        if(prev==-1||nums[prev]<nums[ind])
+        {
+            take=1+helper(nums,ind+1,ind);
         }
-
-        return dp[ind][prev + 1] = Math.max(take, notTake);
+        return dp[ind][prev+1]=Math.max(take,not_take);
     }
-
     public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        dp = new int[n][n + 1];
-
-        for (int[] row : dp)
-            Arrays.fill(row, -1);
-
-        return helper(nums, 0, -1);
+        dp=new int[nums.length][nums.length+1];
+        for(int i=0;i<nums.length;++i)
+        {
+            Arrays.fill(dp[i],-1);
+        }
+        return helper(nums,0,-1);
     }
 }
