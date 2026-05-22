@@ -1,17 +1,15 @@
 class Solution {
     ArrayList<Integer>list;
     int visited[];
-    public void helper(ArrayList<ArrayList<Integer>> adj,int i)
+    public void helper(ArrayList<ArrayList<Integer>> adj,int node)
     {
-        if(visited[i]==1){return;}
-        
-        list.add(i);
-        visited[i]=1;
-        for(int val:adj.get(i))
+        for(int val:adj.get(node))
         {
             if(visited[val]==0)
             {
-                helper(adj,val);   
+                list.add(val);
+                visited[val]=1;
+                helper(adj,val);
             }
         }
     }
@@ -19,11 +17,13 @@ class Solution {
         // code here
         list=new ArrayList<>();
         visited=new int[adj.size()];
+        //System.out.print(adj);
         for(int i=0;i<adj.size();++i)
         {
             if(visited[i]==0)
             {
-                //System.out.println(i);
+                list.add(i);
+                visited[i]=1;
                 helper(adj,i);
             }
         }
