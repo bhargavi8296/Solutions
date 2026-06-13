@@ -1,14 +1,17 @@
 class Solution {
     int minCost(int[] height) {
         // code here
-        int res[]=new int[height.length];
-        if(height.length>1){
-            res[height.length-2]=Math.abs(height[height.length-2]-height[height.length-1]);
-        }
-        for(int i=height.length-3;i>=0;--i)
+        int newH[]=new int[height.length+1];
+        int dp[]=new int[height.length+1];
+        newH[newH.length-1]=Integer.MAX_VALUE;
+        for(int i=0;i<height.length;++i)
         {
-            res[i]=Math.min(Math.abs(height[i]-height[i+1])+res[i+1],Math.abs(height[i]-height[i+2])+res[i+2]);
+            newH[i]=height[i];
         }
-        return res[0];
+        for(int i=height.length-2;i>=0;--i)
+        {
+            dp[i]=Math.min(dp[i+1]+Math.abs(newH[i]-newH[i+1]),dp[i+2]+Math.abs(newH[i]-newH[i+2]));
+        }
+        return dp[0];
     }
 }
