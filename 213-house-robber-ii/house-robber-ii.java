@@ -1,22 +1,18 @@
 class Solution {
+    int dp[];
+    public int helper(int[]nums, int i,int n)
+    {
+        if(i>n){return 0;}
+        if(dp[i]!=-1){return dp[i];}
+        return dp[i]=Math.max(helper(nums,i+2,n)+nums[i],helper(nums,i+1,n));
+    }
     public int rob(int[] nums) {
         if(nums.length==1){return nums[0];}
-        int arr[]=new int[nums.length-1];
-        for(int i=arr.length-1;i>=0;--i)
-        {
-            arr[i]=nums[i];
-            if(i+2<arr.length){arr[i]=nums[i]+arr[i+2];}
-            if(i+1<arr.length){arr[i]=Math.max(arr[i],arr[i+1]);}
-        }
-        int max=arr[0];
-        for(int i=arr.length-1;i>=0;--i)
-        {
-            arr[i]=nums[i+1];
-            if(i+2<arr.length){arr[i]=nums[i+1]+arr[i+2];}
-            if(i+1<arr.length){arr[i]=Math.max(arr[i],arr[i+1]);}
-        }
-        //System.out.print(arr[0]+" "+max);
-        max=Math.max(max,arr[0]);
-        return max;
+        dp=new int[nums.length+1];
+        Arrays.fill(dp,-1);
+        int first=helper(nums,0,nums.length-2);
+        Arrays.fill(dp,-1);
+        int second=helper(nums,1,nums.length-1);
+        return Math.max(first,second);
     }
 }
