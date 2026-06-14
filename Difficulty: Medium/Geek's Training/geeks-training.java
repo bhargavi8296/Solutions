@@ -1,20 +1,32 @@
 class Solution {
-    public int maximumPoints(int mat[][]) {
-        // code here
-        for(int i=1;i<mat.length;++i)
+    int dp[][];
+    public int helper(int mat[][],int row, int selected)
+    {
+        if(row==mat.length){return 0;}
+        if(selected!=-1&&dp[row][selected]!=-1)
         {
-            for(int j=0;j<mat[i].length;++j)
+            return dp[row][selected];
+        }
+        int ans=0;
+        for(int i=0;i<3;++i)
+        {
+            if(i!=selected)
             {
-                int f=(j+1)%3;
-                int s=(j+2)%3;
-                mat[i][j]+=Math.max(mat[i-1][f],mat[i-1][s]);
+                ans=Math.max(ans,mat[row][i]+helper(mat,row+1,i));
             }
         }
-        int result=0;
-        for(int j=0;j<mat[0].length;++j)
+        if(selected!=-1)
+        {dp[row][selected]=ans;}
+        return ans;
+    }
+    public int maximumPoints(int mat[][]) {
+        // code here
+        dp=new int[mat.length][3];
+        for(int i=0;i<mat.length;++i)
         {
-            result=Math.max(result,mat[mat.length-1][j]);
+            Arrays.fill(dp[i],-1);
         }
-        return result;
+        return helper(mat,0,-1);
+        
     }
 }
