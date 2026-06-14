@@ -1,21 +1,21 @@
 class Solution {
+    int dp[][];
+    List<List<Integer>> tri;
+    public int helper( int r, int c)
+    {
+        if(r==tri.size()-1){return tri.get(r).get(c);}
+        if(dp[r][c]!=Integer.MAX_VALUE){return dp[r][c];}
+        List<Integer> row = tri.get(r);
+        return dp[r][c]=row.get(c)+Math.min(helper(r+1,c),helper(r+1,c+1));
+    }
     public int minimumTotal(List<List<Integer>> triangle) {
-        for(int i=1;i<triangle.size();++i)
+        dp=new int[triangle.size()][triangle.size()];
+        for(int i=0;i<triangle.size();++i)
         {
-            for(int j=0;j<triangle.get(i).size();++j)
-            {
-                int fist=j-1>=0?triangle.get(i-1).get(j-1):Integer.MAX_VALUE;
-                int sec=j<triangle.get(i-1).size()?triangle.get(i-1).get(j):Integer.MAX_VALUE;
-                //System.out.println(fist+" "+sec+" "+triangle.get(i).get(j));
-                triangle.get(i).set(j,triangle.get(i).get(j)+Math.min(fist,sec));
-            }
+            Arrays.fill(dp[i],Integer.MAX_VALUE);
         }
-        int min=Integer.MAX_VALUE;
-        //System.out.print(triangle);
-        for(int val:triangle.get(triangle.size()-1))
-        {
-            min=Math.min(min,val);
-        }
-        return min;
+        tri=triangle;
+        int ans=helper(0,0);
+        return ans==Integer.MAX_VALUE?-1:ans;
     }
 }
