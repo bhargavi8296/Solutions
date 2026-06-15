@@ -1,20 +1,25 @@
 class Solution {
     int dp[][];
-    public int helper(int[]price, int n, int c)
+    public int helper(int[]price, int i, int n)
     {
-        if(c==0||n==0){return 0;}
-        if(dp[n][c]!=-1){return dp[n][c];}
-        if(n<=c)
+        if(n<=0||i<=0){return 0;}
+        if(dp[i][n]!=-1){return dp[i][n];}
+        if(i<=n)
         {
-            return dp[n][c]=Math.max(price[n-1]+helper(price,n,c-n),helper(price,n-1,c));
+            return dp[i][n]=Math.max(helper(price,i,n-i)+price[i-1],helper(price,i-1,n));
         }
-        return dp[n][c]=helper(price,n-1,c);
+        return helper(price,i-1,n);
     }
     public int cutRod(int[] price) {
         // code here
-        int n=price.length;
-        dp=new int[n+1][n+1];
-        for(int i=0;i<n+1;++i){Arrays.fill(dp[i],-1);}
-        return helper(price,n,n);
+        dp=new int[price.length+1][price.length+1];
+        for(int i=0;i<price.length+1;++i)
+        {
+            Arrays.fill(dp[i],-1);
+        }
+        return helper(price, price.length,price.length);
     }
 }
+// rod helper(price, int n int c)
+// cut -> choose kar bhi skte hai or nahi bhi
+// karenge price n-c c 
