@@ -1,27 +1,37 @@
 class Solution {
     int dp[][];
-    public int helper(int[]arr, int sum, int n)
+    public int helper(int arr[], int sum , int i)
     {
-        if(n==0)
-        {
-            if(sum==0 && arr[0]==0) return 2;
-            if(sum==0 || sum==arr[0]) return 1;
-            return 0;
-        }
-        if(dp[n][sum]!=-1){return dp[n][sum];}
-        if(arr[n]<=sum){return dp[n][sum]=helper(arr,sum-arr[n],n-1)+helper(arr,sum,n-1);}
-        return dp[n][sum]=helper(arr,sum,n-1);
+       if(i<0){return 0;}
+       if(dp[i][sum]!=-1){return dp[i][sum];}
+       //System.out.println(sum+" "+arr[i]);
+       if(sum>=arr[i])
+       {
+           if(sum==arr[i])
+           {
+               return dp[i][sum]= 1+helper(arr,0,i-1)+helper(arr,sum, i-1);
+           }
+           return dp[i][sum]=helper(arr,sum-arr[i],i-1)+helper(arr,sum, i-1);
+       }
+       return dp[i][sum]=helper(arr,sum, i-1);
+        
     }
     public int countPartitions(int[] arr, int diff) {
         // code here
         int sum=0;
-        for(int val:arr){sum+=val;}
+        int count=0;
+        for(int val:arr)
+        {
+            sum+=val;
+        }
         sum+=diff;
         if(sum%2!=0){return 0;}
-        sum/=2;
-        int n=arr.length;
-        dp=new int[n+1][sum+1];
-        for(int i=0;i<n+1;++i){Arrays.fill(dp[i],-1);}
-        return helper(arr,sum,n-1);
+        sum=sum/2;
+        dp=new int[arr.length+1][sum+1];
+        for(int i=0;i<arr.length+1;++i)
+        {
+            Arrays.fill(dp[i],-1);
+        }
+        return helper(arr, sum, arr.length-1);
     }
 }
