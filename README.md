@@ -21,4 +21,20 @@
 |  |
 | ------- |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
+## Array
+|  |
+| ------- |
+| [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/bhargavi8296/Solutions/tree/master/3336-find-the-number-of-subsequences-with-equal-gcd) |
+## Math
+|  |
+| ------- |
+| [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/bhargavi8296/Solutions/tree/master/3336-find-the-number-of-subsequences-with-equal-gcd) |
+## Dynamic Programming
+|  |
+| ------- |
+| [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/bhargavi8296/Solutions/tree/master/3336-find-the-number-of-subsequences-with-equal-gcd) |
+## Number Theory
+|  |
+| ------- |
+| [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/bhargavi8296/Solutions/tree/master/3336-find-the-number-of-subsequences-with-equal-gcd) |
 <!---LeetCode Topics End-->
