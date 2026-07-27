@@ -18,6 +18,7 @@
 |  |
 | ------- |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
+| [0785-is-graph-bipartite](https://github.com/bhargavi8296/Solutions/tree/master/0785-is-graph-bipartite) |
 ## Binary Tree
 |  |
 | ------- |
@@ -50,4 +51,16 @@
 |  |
 | ------- |
 | [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
+## Breadth-First Search
+|  |
+| ------- |
+| [0785-is-graph-bipartite](https://github.com/bhargavi8296/Solutions/tree/master/0785-is-graph-bipartite) |
+## Union-Find
+|  |
+| ------- |
+| [0785-is-graph-bipartite](https://github.com/bhargavi8296/Solutions/tree/master/0785-is-graph-bipartite) |
+## Graph Theory
+|  |
+| ------- |
+| [0785-is-graph-bipartite](https://github.com/bhargavi8296/Solutions/tree/master/0785-is-graph-bipartite) |
 <!---LeetCode Topics End-->
