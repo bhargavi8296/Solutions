@@ -12,6 +12,7 @@
 ## Tree
 |  |
 | ------- |
+| [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
 ## Depth-First Search
 |  |
@@ -20,6 +21,7 @@
 ## Binary Tree
 |  |
 | ------- |
+| [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
 ## Array
 |  |
@@ -40,4 +42,12 @@
 | ------- |
 | [1979-find-greatest-common-divisor-of-array](https://github.com/bhargavi8296/Solutions/tree/master/1979-find-greatest-common-divisor-of-array) |
 | [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/bhargavi8296/Solutions/tree/master/3336-find-the-number-of-subsequences-with-equal-gcd) |
+## Binary Search
+|  |
+| ------- |
+| [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
+## Bit Manipulation
+|  |
+| ------- |
+| [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 <!---LeetCode Topics End-->
