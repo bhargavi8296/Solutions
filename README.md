@@ -14,6 +14,7 @@
 | ------- |
 | [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
+| [0700-search-in-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0700-search-in-a-binary-search-tree) |
 ## Depth-First Search
 |  |
 | ------- |
@@ -24,6 +25,7 @@
 | ------- |
 | [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
+| [0700-search-in-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0700-search-in-a-binary-search-tree) |
 ## Array
 |  |
 | ------- |
@@ -63,4 +65,8 @@
 |  |
 | ------- |
 | [0785-is-graph-bipartite](https://github.com/bhargavi8296/Solutions/tree/master/0785-is-graph-bipartite) |
+## Binary Search Tree
+|  |
+| ------- |
+| [0700-search-in-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0700-search-in-a-binary-search-tree) |
 <!---LeetCode Topics End-->
