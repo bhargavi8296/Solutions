@@ -16,6 +16,7 @@
 | [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 | [0235-lowest-common-ancestor-of-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0235-lowest-common-ancestor-of-a-binary-search-tree) |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
+| [0450-delete-node-in-a-bst](https://github.com/bhargavi8296/Solutions/tree/master/0450-delete-node-in-a-bst) |
 | [0700-search-in-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0700-search-in-a-binary-search-tree) |
 ## Depth-First Search
 |  |
@@ -31,6 +32,7 @@
 | [0222-count-complete-tree-nodes](https://github.com/bhargavi8296/Solutions/tree/master/0222-count-complete-tree-nodes) |
 | [0235-lowest-common-ancestor-of-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0235-lowest-common-ancestor-of-a-binary-search-tree) |
 | [0257-binary-tree-paths](https://github.com/bhargavi8296/Solutions/tree/master/0257-binary-tree-paths) |
+| [0450-delete-node-in-a-bst](https://github.com/bhargavi8296/Solutions/tree/master/0450-delete-node-in-a-bst) |
 | [0700-search-in-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0700-search-in-a-binary-search-tree) |
 ## Array
 |  |
@@ -76,6 +78,7 @@
 | ------- |
 | [0098-validate-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0098-validate-binary-search-tree) |
 | [0235-lowest-common-ancestor-of-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0235-lowest-common-ancestor-of-a-binary-search-tree) |
+| [0450-delete-node-in-a-bst](https://github.com/bhargavi8296/Solutions/tree/master/0450-delete-node-in-a-bst) |
 | [0700-search-in-a-binary-search-tree](https://github.com/bhargavi8296/Solutions/tree/master/0700-search-in-a-binary-search-tree) |
 ## Binary Lifting
 |  |
