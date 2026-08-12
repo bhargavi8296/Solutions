@@ -12,12 +12,12 @@ class Solution {
     public TreeNode helper(TreeNode root, TreeNode p, TreeNode q)
     {
         if(root==null){return null;}
-        if(p==root||q==root||(p.val<root.val&&q.val>root.val)){return root;}
-        if(q.val<root.val){return lowestCommonAncestor(root.left,p,q);}
-        return lowestCommonAncestor(root.right,p,q);
+        if(root.val==p.val||root.val==q.val){return root;}
+        TreeNode left=helper(root.left,p,q);
+        TreeNode right=helper(root.right,p,q);
+        return left!=null&&right!=null?root:left==null?right:left;
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(p.val>q.val){return helper(root,q,p);}
         return helper(root,p,q);
     }
 }
