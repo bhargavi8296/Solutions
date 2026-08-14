@@ -14,31 +14,28 @@
  * }
  */
 class BSTIterator {
-    TreeNode head=null;
-    TreeNode next=null;
-    TreeNode t;
+    List<Integer>list;
+    int i=0;
     public void helper(TreeNode root)
     {
-        if(root==null){return ;}
+        if(root==null){return;}
         helper(root.left);
-        if(head==null){head=new TreeNode(root.val);next=head;}
-        else{next.right=new TreeNode(root.val);next=next.right;}
+        list.add(root.val);
         helper(root.right);
     }
     public BSTIterator(TreeNode root) {
-        t=root;
-        helper(t);
+        list=new ArrayList<>();
+        helper(root);
     }
     
     public int next() {
-        if(head==null){return -1;}
-        int val=head.val;
-        head=head.right;
-        return val;
+        int temp=list.get(i);
+        ++i;
+        return temp;
     }
     
     public boolean hasNext() {
-        return head==null?false:true;
+        return i<list.size()?true:false;
     }
 }
 
