@@ -1,6 +1,6 @@
 class Solution {
     int par[];
-    int rank[];
+    int range[];
     public int find(int x)
     {
         if(x==par[x]){return x;}
@@ -8,44 +8,51 @@ class Solution {
     }
     public void union(int x, int y)
     {
-        if(rank[x]>rank[y])
+        if(range[x]>range[y])
         {
-            par[y]=x;
-            rank[x]+=rank[y];
+            range[x]+=range[y];
+            par[y]=par[x];
         }
-        else
-        {
-            par[x]=y;
-            rank[y]+=rank[x];
+        else{
+            range[y]+=range[x];
+            par[x]=par[y];
         }
     }
     public int removeStones(int[][] stones) {
-        int x=0;
-        int y=0;
-        for(int i=0;i<stones.length;++i){x=Math.max(x,stones[i][0]);y=Math.max(y,stones[i][1]);}
-        par=new int[x+y+2];
-        rank=new int[x+y+2];
-        Arrays.fill(rank,1);
-        Set<Integer>set=new HashSet<>();
-        for(int i=0;i<par.length;++i)
+        int max=0;
+        int r=0;
+        int c=0;
+        for(int i=0;i<stones.length;++i){
+            r=Math.max(r,stones[i][0]+1);
+            c=Math.max(c,stones[i][1]+1);
+        }
+        par=new int[r+c];
+        range=new int[r+c];
+        Arrays.fill(range,1);
+        for(int i=0;i<r+c;++i)
         {
             par[i]=i;
         }
         for(int i=0;i<stones.length;++i)
         {
-            int r=stones[i][0];
-            int c=x+1+stones[i][1];set.add(r);set.add(c);
-            int pr=find(r);
-            int pc=find(c);
-            if(pr!=pc){
-                union(pr,pc);
+            int x=stones[i][0];
+            int y=r+stones[i][1];
+            int px=find(x);
+            int py=find(y);
+            if(px!=py)
+            {
+                union(px,py);
             }
+            
         }
-        int count=0;
+        int connected=0;
         for(int i=0;i<par.length;++i)
         {
-            if(i==par[i]&&set.contains(i)){++count;}
+            //System.out.println(i+" "+par[i]);
+            if(i==par[i]&&range[i]>1){++connected;}
         }
-        return stones.length-count;
+        //System.out.print(connected);
+        return stones.length-connected;
+
     }
 }
