@@ -1,95 +1,105 @@
+class pair{
+    int r;
+    int c;
+    pair(int r, int c)
+    {
+        this.r=r;
+        this.c=c;
+    }
+}
 class Solution {
     int par[];
-    int size[];
-    int gr;
-    int gc;
-    public void union(int px, int py)
-    {
-        if(size[px]>=size[py])
-        {
-            par[py]=px;
-            size[px]+=size[py];
-        }
-        else
-        {
-            par[px]=py;
-            size[py]+=size[px];
-        }
-    }
+    int range[];
     public int find(int x)
     {
         if(x==par[x]){return x;}
         return par[x]=find(par[x]);
     }
-    public void bfs(int r,int c, int[][]grid)
+    public void union(int x,int y)
     {
-        grid[r][c]=2;
-        int ro[]={0,1,0,-1};
-        int co[]={1,0,-1,0};
-        int pr=r*gc+c;
-        int gpr=find(pr);
-        for(int i=0;i<4;++i)
+        if(range[x]>range[y])
         {
-            int tr=r+ro[i];
-            int tc=c+co[i];
-            if(tr>=0&&tr<gr&&tc>=0&&tc<gc&&grid[tr][tc]==1)
-            {
-                int ch=tr*gc+tc;
-                int gpc=find(ch);
-                if(gpr!=gpc){union(gpr,gpc);}
-                bfs(tr,tc,grid);
-            }
+            range[x]+=range[y];
+            par[y]=par[x];
+        }
+        else{
+            range[y]+=range[x];
+            par[x]=par[y];
         }
     }
     public int largestIsland(int[][] grid) {
-        gr=grid.length;
-        gc=grid[0].length;
-        par=new int[gr*gc];
-        size=new int[gr*gc];
-        Arrays.fill(size,1);
-        for(int i=0;i<gr*gc;++i){par[i]=i;}
-        for(int i=0;i<gr;++i)
+        par=new int[grid.length*grid.length];
+        range=new int[grid.length*grid.length];
+        Arrays.fill(range,1);
+        for(int i=0;i<grid.length*grid.length;++i)
         {
-            for(int j=0;j<gc;++j)
+            par[i]=i;
+        }
+        for(int i=0;i<grid.length;++i)
+        {
+            for(int j=0;j<grid[i].length;++j)
             {
                 if(grid[i][j]==1)
                 {
-                    bfs(i,j,grid);
+                    grid[i][j]=2;
+                    Queue<pair>q=new LinkedList<>();
+                    q.add(new pair(i,j));
+                    while(!q.isEmpty())
+                    {
+                        pair p=q.poll();
+                        int r=p.r;
+                        int c=p.c;
+                        int t1=r*grid.length+c;
+                        int ro[]={0,1,0,-1};
+                        int co[]={1,0,-1,0};
+                        for(int k=0;k<4;++k)
+                        {
+                            int tr=r+ro[k];
+                            int tc=c+co[k];
+                            if(tr>=0&&tr<grid.length&&tc>=0&&tc<grid.length&&grid[tr][tc]==1)
+                            {
+                                grid[tr][tc]=2;
+                                int t2=tr*grid.length+tc;
+                                int px=find(t1);
+                                int py=find(t2);
+                                if(px!=py){
+                                    union(px,py);
+                                    q.add(new pair(tr,tc));
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        int globalres=0;
-        int count=0;
-        for(int i=0;i<gr;++i)
+        int max=0;
+        for(int i=0;i<grid.length;++i)
         {
-            for(int j=0;j<gc;++j)
+            for(int j=0;j<grid.length;++j)
             {
                 if(grid[i][j]==0)
                 {
-                    if(count==0){++count;}
                     int ro[]={0,1,0,-1};
                     int co[]={1,0,-1,0};
-                    int result=0;
-                    Set<Integer>s=new HashSet<>();
+                    List<Integer>list=new ArrayList<>();
+                    int sum=0;
                     for(int k=0;k<4;++k)
                     {
                         int tr=i+ro[k];
                         int tc=j+co[k];
-                        if(tr>=0&&tr<gr&&tc>=0&&tc<gc&&grid[tr][tc]==2)
+                        if(tr>=0&&tr<grid.length&&tc>=0&&tc<grid.length&&grid[tr][tc]==2&&!list.contains(find(tr*grid.length+tc)))
                         {
-                            int temp=find(tr*gc+tc);
-                            if(!s.contains(temp))
-                            {
-                                result+=size[temp];
-                                s.add(temp);
-                            }
+                            sum+=range[find(tr*grid.length+tc)];
+                            list.add(find(tr*grid.length+tc));
                         }
-
                     }
-                    globalres=Math.max(result+1,globalres);
+                    max=Math.max(max,sum+1);
+                }
+                else if(par[i*grid.length+j]==(i*grid.length+j)){
+                    max=Math.max(max,range[i*grid.length+j]);
                 }
             }
         }
-        return count!=0?globalres:gr*gc;
+        return max;
     }
 }
