@@ -1,58 +1,53 @@
 class Solution {
-    public void merge(int[]arr, int i, int mid,int j)
+    public void merge(int nums[],int s, int mid, int e)
     {
-        int temp[]=new int[j-i+1];
-        int k=i;
-        int l=mid;
-        int m=0;
-        while(k<mid&&l<=j)
+        int []t=new int[e-s+1];
+        int i=0;
+        int j=s;
+        int k=mid+1;
+        while(j<=mid&&k<=e)
         {
-            if(arr[k]<=arr[l])
+            if(nums[j]<nums[k])
             {
-                temp[m]=arr[k];++k;
+                t[i]=nums[j];++i;++j;
             }
             else{
-                temp[m]=arr[l];++l;
+                t[i]=nums[k];++i;++k;
             }
-            ++m;
         }
-        while(k<mid){temp[m]=arr[k];++k;++m;}
-        while(l<=j){temp[m]=arr[l];++l;++m;}k=0;
-        for(int t=i;t<=j;++t)
+        while(j<=mid){t[i]=nums[j];++i;++j;}
+        while(k<=e){ t[i]=nums[k];++i;++k;}
+        k=0;
+        for(i=s;i<=e;++i)
         {
-            //System.out.println(arr[t]+" "+temp[k]);
-            arr[t]=temp[k];++k;
-
+            nums[i]=t[k];++k;
         }
     }
-    public void sort(int[]nums, int i, int j)
+    public void sort(int[]nums, int s, int e)
     {
-        if(i>=j){return;}
-        int mid=(i+j)/2;
-        sort(nums,i,mid);
-        sort(nums,mid+1,j);
-        merge(nums,i,mid+1,j);
+        if(s==e){return;}
+        int mid=(s+e)/2;
+        sort(nums,s,mid);
+        sort(nums,mid+1,e);
+        merge(nums,s,mid,e);
     }
-    public void nextPermutation(int[] arr) {
-        boolean flag=false;
-        for(int i=arr.length-2;i>=0;--i)
+    public void nextPermutation(int[] nums) {
+        int i=nums.length-2;
+        while(i>=0&&nums[i]>=nums[i+1])
         {
-            if(arr[i]<arr[i+1])
-            {
-                for(int j=arr.length-1;j>i;--j)
-                {
-                    if(arr[j]>arr[i])
-                    {
-                        int temp=arr[j];
-                        arr[j]=arr[i];
-                        arr[i]=temp;
-                        sort(arr,i+1,arr.length-1);
-                        flag=true; break;
-                    }
-                }
-                        break;
-            } 
+            --i;
         }
-        if(!flag){sort(arr,0,arr.length-1);}
+        if(i<0){sort(nums,0,nums.length-1); return;}
+        int j=i+1;
+        while(j<nums.length&&nums[i]<nums[j])
+        {
+            ++j;
+        }
+        int temp=nums[i];
+        nums[i]=nums[j-1];
+        nums[j-1]=temp;
+        sort(nums,i+1,nums.length-1);
     }
 }
+
+
