@@ -1,20 +1,18 @@
 class Solution {
-    public int findMin(int[] arr) {
-        int start=0;
-        int end=arr.length-1;
-        int min=Integer.MAX_VALUE;
-        while(start<=end)
+    public int findMin(int[] nums) {
+        int l=0;
+        int h=nums.length-1;
+        int result=5001;
+        while(l<=h)
         {
-            int mid=(start+end)/2;
-            if(arr[start]<=arr[mid]&&arr[mid]<=arr[end]){min=Math.min(min, arr[start]);break;}
-            if(arr[start]>arr[mid]){
-                min=Math.min(arr[mid],min);
-                end=mid-1;
-            }
+            if(nums[l]<=nums[h]){result=Math.min(result,nums[l]);break;}
+            int mid=(l+h)/2;
+            if(nums[l]<=nums[mid]){l=mid+1; result=Math.min(result,nums[l]);}
             else{
-                start=mid+1;
+                result=Math.min(result,nums[mid]);
+                h=mid-1;
             }
         }
-        return min;
+        return result;
     }
 }
