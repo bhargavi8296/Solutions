@@ -7,10 +7,10 @@ class Solution {
         }
         int l=1;
         int ans=h;
-        while(l<h)
+        while(l<=h)
         {
             int mid=(l+h)/2;
-            int sum=0;
+            long sum=0;
             for(int i=0;i<piles.length;++i)
             {
                 if(piles[i]%mid!=0)
@@ -21,7 +21,7 @@ class Solution {
             if(sum<=ho)
             {
                 ans=Math.min(ans,mid);
-                h=mid;
+                h=mid-1;
             }
             else{l=mid+1;}
         }
