@@ -1,25 +1,25 @@
 class Solution {
     public int smallestDivisor(int[] nums, int threshold) {
-        int start=1;
-        int end=Integer.MIN_VALUE;
+        int l=1;
+        int h=Integer.MIN_VALUE;
         for(int i=0;i<nums.length;++i)
         {
-            end=Math.max(end,nums[i]);
+            l=Math.min(l,nums[i]);
+            h=Math.max(h,nums[i]);
         }
-        int result=end;
-        while(start<end)
+        int ans=h;
+        while(l<=h)
         {
-            int mid=(start+end)/2;int count=0;
-            //System.out.print(mid);
+            int mid=(l+h)/2;
+            int sum=0;
             for(int i=0;i<nums.length;++i)
             {
-                if(nums[i]<mid){count+=1;}
-                else{if(nums[i]%mid==0){count+=(nums[i]/mid);}
-                else{count+=((nums[i]/mid)+1);}}
+                sum+=(nums[i]%mid==0?nums[i]/mid:(nums[i]/mid)+1);
             }
-            if(count>threshold){start=mid+1;}
-            else{end=mid;result=mid;}
+            //System.out.println(mid+" "+sum+" "+l+" "+h);
+            if(sum>threshold){l=mid+1;}
+            else{ans=mid;h=mid-1;}
         }
-        return result;
+        return ans;
     }
 }
