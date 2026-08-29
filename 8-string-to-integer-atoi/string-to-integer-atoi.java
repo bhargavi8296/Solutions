@@ -1,28 +1,24 @@
 class Solution {
     public int myAtoi(String s) {
-        Stack<Character>st=new Stack<>();
+        int i=0;
+        boolean flag=false;
         s=s.trim();
-        String ans="0";
-        int flag=1;
-        for(int i=0;i<s.length();++i)
+        if(s.length()>0&&(s.charAt(0)=='+'||s.charAt(i)=='-'))
         {
-            if(i==0&&(s.charAt(i)=='+'||s.charAt(i)=='-')){
-                flag=s.charAt(i)=='+'?flag:-1;
-            }
-            else
-            {
-                if(s.charAt(i)>='0'&&s.charAt(i)<='9')
-                {
-                    if(st.isEmpty()&&s.charAt(i)=='0'){continue;}
-                    else{st.push(s.charAt(i));ans+=s.charAt(i);}
-                }
-                else{
-                    break;
-                }
-            }
-            if(flag>0){if(Long.parseLong(ans)>=Integer.MAX_VALUE){return Integer.MAX_VALUE;}}
-            else{if((flag*Long.parseLong(ans))<=Integer.MIN_VALUE){return Integer.MIN_VALUE;}}
+            if(s.charAt(i)=='-'){flag=true;}
+            ++i;
         }
-        return Integer.parseInt(ans)*flag;
+        while(i<s.length()&&s.charAt(i)=='0'){++i;}
+        long res=0;
+        while(i<s.length()&&s.charAt(i)>='0'&&s.charAt(i)<='9')
+        {
+            res*=10;
+            res+=(s.charAt(i)-'0');
+            if(!flag&&res>Integer.MAX_VALUE){return Integer.MAX_VALUE;}
+            else if(flag&&res*-1<Integer.MIN_VALUE){return Integer.MIN_VALUE;}
+            ++i;
+        }
+        res=flag==true?res*-1:res;
+        return (int)res;
     }
 }
