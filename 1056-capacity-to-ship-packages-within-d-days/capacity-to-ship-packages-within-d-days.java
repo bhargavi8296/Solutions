@@ -1,40 +1,40 @@
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
-        int sum=0;
-        int start=1;
+        int h=0;
         for(int i=0;i<weights.length;++i)
         {
-            sum+=weights[i];
-            start=Math.max(start,weights[i]);
+            h+=weights[i];
         }
-        //Arrays.sort(weights);
-        int end=sum;
-        int result=end;
-        while(start<=end)
+        int l=1;
+        int ans=Integer.MAX_VALUE;
+        while(l<=h)
         {
-            int mid=(start+end)/2;
-            int count=1;
-            int i=0;
-            int top=mid;
-           
-            while(i<weights.length)
+            int mid=(l+h)/2;
+            int s=0;int cnt=1;
+            boolean flag=false;
+            for(int i=0;i<weights.length;++i)
             {
-                 //System.out.println(top+" "+weights[i]+" ");
-                if(weights[i]<=top)
+                if(weights[i]>mid){flag=true;break;}
+                if(s+weights[i]>mid)
                 {
-                    top-=weights[i];
+                    ++cnt;
+                    s=0;
                 }
-                else{
-                    top=mid;
-                    top-=weights[i];
-                    ++count;
-                }
-                ++i;
+                s+=weights[i];
+                
             }
-            //System.out.println(count+" "+mid);
-            if(count<=days){end=mid-1;result=mid;}
-            else{start=mid+1;}
+            if(flag){l=mid+1;continue;}
+            //System.out.println(mid+" "+cnt);
+            if(cnt<=days)
+            {
+                ans=Math.min(ans,mid);
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+
         }
-        return result;
+        return ans;
     }
 }
