@@ -5,8 +5,8 @@ class Solution {
         while(r<matrix.length&&c>=0)
         {
             if(matrix[r][c]==target){return true;}
-            else if(matrix[r][c]>target){c-=1;}
-            else{r+=1;}
+            else if(matrix[r][c]>target){--c;}
+            else{++r;}
         }
         return false;
     }
