@@ -1,55 +1,57 @@
 class Solution {
-    public int helper(int[]arr)
+    public int helper(int heights[])
     {
-        int pre[]=new int[arr.length];
-        int post[]=new int[arr.length];
-        Stack<Integer>s1=new Stack<>();
-        Stack<Integer>s2=new Stack<>();
-        for(int i=0;i<arr.length;++i)
+        int left[]=new int[heights.length];
+        int right[]=new int[heights.length];
+        Stack<Integer>st=new Stack<>();
+        for(int i=0;i<heights.length;++i)
         {
-            
-            while(!s1.isEmpty()&&arr[s1.peek()]>=arr[i]){s1.pop();}
-            if(s1.isEmpty()){pre[i]=-1;}
-            else{pre[i]=s1.peek();}
-            s1.push(i);
-            int n=arr.length-1-i;
-            while(!s2.isEmpty()&&arr[s2.peek()]>=arr[n]){s2.pop();}
-            if(s2.isEmpty()){post[n]=arr.length;}
-            else{post[n]=s2.peek();}
-            s2.push(n);
-            //System.out.println(s1+" "+s2);
+            while(!st.isEmpty()&&heights[i]<=heights[st.peek()]){st.pop();}
+            if(st.isEmpty()){
+                left[i]=-1;
+            }
+            else{
+                left[i]=st.peek();
+            }
+            st.push(i);
         }
-        int result=Integer.MIN_VALUE;
-        for(int i=0;i<arr.length;++i)
+        st.clear();
+        for(int i=heights.length-1;i>=0;--i)
         {
-            int temp=post[i]-pre[i]-1;
-            //System.out.println(post[i]+" "+pre[i]+" "+arr[i]+" "+temp);
-            result=Math.max(result,arr[i]*temp);
+            while(!st.isEmpty()&&heights[i]<=heights[st.peek()]){st.pop();}
+            if(st.isEmpty()){
+                right[i]=heights.length;
+            }
+            else{
+                right[i]=st.peek();
+            }
+            st.push(i);
         }
-        //System.out.println(result+" ");
-        //System.out.println(); 
-        return result;
+        int max=0;
+        for(int i=0;i<heights.length;++i)
+        {
+            max=Math.max(max,(right[i]-left[i]-1)*heights[i]);
+        }
+        return max;
     }
     public int maximalRectangle(char[][] matrix) {
         int arr[]=new int[matrix[0].length];
-        int result=Integer.MIN_VALUE;
+        int max=0;
         for(int i=0;i<matrix.length;++i)
         {
             for(int j=0;j<matrix[i].length;++j)
             {
-                if(matrix[i][j]!='0')
+                if(matrix[i][j]=='0')
                 {
-                    if(i!=0){arr[j]+=1;}
-                    else{arr[j]=1;}
-                }
-                else{
                     arr[j]=0;
                 }
-                //System.out.println(arr[j]);
+                else{
+                    arr[j]+=1;
+                }
             }
-            result=Math.max(result,helper(arr));
-            //System.out.print(result);
+            int temp=helper(arr);
+            max=Math.max(max,temp);
         }
-        return result;
+        return max;
     }
 }
