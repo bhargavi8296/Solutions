@@ -1,28 +1,33 @@
 class Solution {
-    public int totalFruit(int[] fruits) {
+    public int totalFruit(int[] nums) {
         int i=0;
-        int result=0;
-        while(i<fruits.length)
+        int j=0;
+        Map<Integer,Integer>map=new HashMap<>();
+        int max=0;
+        while(j<nums.length)
         {
-            //System.out.println(i);
-            int first=fruits[i];
-            int count=1;
-            int second=-1;
-            int count1=0;
-            int j=i+1;
-            int f=i;
-            int s=j;
-            while(j<fruits.length)
+            while(j<nums.length&&map.size()<=2)
             {
-                //System.out.println(j+"."+first+" "+second+" "+count+" "+count1);
-                if(fruits[j]==first){++count;f=j;}
-                else if(second==-1||second==fruits[j]){second=fruits[j];++count1;s=j;}
-                else{break;}  
-                ++j;
+                
+                map.put(nums[j],map.getOrDefault(nums[j],0)+1);++j;
             }
-            result=Math.max(result,count+count1);
-            i=Math.min(f,s)+1;
+            if(map.size()>2)
+            {max=Math.max(max,j-1-i);}
+            else{
+                max=Math.max(max,j-i);
+            }
+            //System.out.println(map+" "+j+" "+i);
+            while(map.size()>2)
+            {
+                map.put(nums[i],map.get(nums[i])-1);
+                if(map.get(nums[i])==0)
+                {
+                    map.remove(nums[i]);
+                }
+                ++i;
+            }
+
         }
-        return result;
+        return max;
     }
 }
