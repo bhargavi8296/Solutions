@@ -3,19 +3,25 @@ class Solution {
         int xor=0;
         for(int i=0;i<nums.length;++i)
         {
-            xor^=nums[i];
+            xor=xor^nums[i];
         }
-        int bit=(xor)&(~(xor-1));
-        int f=0;
-        int s=0;
+        int temp=(xor^((xor)&(xor-1)));
+        //System.out.println((xor)^(xor-1));
+        int zero=0;
+        int one=0;
         for(int i=0;i<nums.length;++i)
         {
-            if((nums[i]&bit)==0){f^=nums[i];}
-            else{s^=nums[i];}
+            if((temp&nums[i])==0)
+            {
+                zero^=nums[i];
+            }
+            else{
+                one^=nums[i];
+            }
         }
-        int[] arr = new int[2];
-        arr[0] = Math.min(f,s);
-        arr[1] = Math.max(f,s);
-        return arr;
+        int result[]=new int[2];
+        result[0]=zero;
+        result[1]=one;
+        return result;
     }
 }
