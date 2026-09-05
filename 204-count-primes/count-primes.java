@@ -1,22 +1,20 @@
 class Solution {
     public int countPrimes(int n) {
-        int arr[]=new int[n+1];
-        Arrays.fill(arr,1);
-        if(n<2){return 0;}
-        for(int i=2;i*i<=n;++i)
-        {
-            if(arr[i]==1)
-            {
-                for(int j=i*i;j<=n;j+=i)
-                {
-                    arr[j]=0;
-                }
-            }
-        }
         int count=0;
+        boolean []prime=new boolean[n+1];
         for(int i=2;i<n;++i)
         {
-            if(arr[i]==1){++count;}
+            if((i*(long)(i-1)+i)>n){break;}
+            if(prime[i]==true){continue;}
+            int start=(i*(i-1))+i;
+            for(int j=start;j<=n;j+=i)
+            {
+                prime[j]=true;
+            }
+        }
+        for(int i=2;i<n;++i)
+        {
+            if(prime[i]==false){++count;}    
         }
         return count;
     }
