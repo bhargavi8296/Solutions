@@ -1,52 +1,67 @@
 class Solution {
+    int mat[][];
     List<List<String>>result;
-    List<String>res;
-    public boolean check(int r, int c)
+    public boolean verify(int[][]mat, int r, int c)
     {
-        int tr=r;
-        int tc=c;
-        while(tr>=0){
-            if(res.get(tr).charAt(tc)=='Q'){return false;}
-            --tr;
+        int tr=r-1;
+        while(tr>=0)
+        {
+            if(mat[tr][c]==1){return false;}--tr;
         }
-        tr=r;tc=c;
+        tr=r-1;
+        int tc=c-1;
         while(tr>=0&&tc>=0)
         {
-             if(res.get(tr).charAt(tc)=='Q'){return false;}
+            if(mat[tr][tc]==1){return false;}
             --tr;--tc;
         }
-        tr=r;
-        tc=c;
-        while(tr>=0&&tc<res.size())
+        tc=c+1;
+        tr=r-1;
+        while(tr>=0&&tc<mat[0].length)
         {
-             if(res.get(tr).charAt(tc)=='Q'){return false;}
+            if(mat[tr][tc]==1){return false;}
             --tr;++tc;
         }
         return true;
     }
-    public void helper(int r, int n)
+    public void addResult(int mat[][])
     {
-        if(r==n){List<String>temp=new ArrayList<>();temp.addAll(res);result.add(temp);return ;}
-        for(int i=0;i<n;++i)
+        result.add(new ArrayList<>());
+        for(int i=0;i<mat.length;++i)
         {
-            if(check(r,i))
+            String res="";
+            for(int j=0;j<mat[i].length;++j)
             {
-                StringBuilder sb = new StringBuilder(res.get(r));
-                sb.setCharAt(i, 'Q');
-                res.set(r, sb.toString());
-                helper(r+1,n);
-                sb.setCharAt(i, '.');
-                res.set(r, sb.toString());
+                if(mat[i][j]==0)
+                {
+                    res+='.';
+                }
+                else{
+                    res+='Q';
+                }
+            }
+            result.get(result.size()-1).add(res);
+        }
+    }
+    public void helper(int mat[][], int r){
+        if(r==mat.length)
+        {
+            addResult(mat);return;
+        }
+        for(int i=0;i<mat[r].length;++i)
+        {
+            if(verify(mat,r,i))
+            {
+                mat[r][i]=1;
+                helper(mat,r+1);
+                mat[r][i]=0;
             }
         }
-        return ;
     }
     public List<List<String>> solveNQueens(int n) {
+        mat=new int[n][n];
         result=new ArrayList<>();
-        res=new ArrayList<>();
-        String str=".".repeat(n);
-        for(int i=0;i<n;++i){res.add(str);}
-        helper(0,n);
+        helper(mat,0);
         return result;
     }
 }
