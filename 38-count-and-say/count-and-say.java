@@ -7,19 +7,19 @@ class Solution {
         {
             //System.out.println(str);
             int i=0;
-            int j=i;
-            int count=0;
+            int j=i+1;
+            int count=1;
             StringBuilder temp=new StringBuilder();
             while(j<str.length())
             {
-                count=0;
                 while(j<str.length()&&str.charAt(j)==str.charAt(i))
                 {
                     ++count;++j;
                 }
                 temp.append(count).append(str.charAt(i));
                 i=j;
-                //++j;
+                ++j;
+                count=1;
             }
             if(i<str.length()){
                 temp.append(count).append(str.charAt(i));
