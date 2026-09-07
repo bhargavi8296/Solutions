@@ -1,12 +1,16 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        int arr[]=new int[nums.length];
+        boolean[]flag=new boolean[nums.length];
+        flag[nums.length-1]=true;
         for(int i=nums.length-2;i>=0;--i)
         {
-            if(nums[i]<arr[i+1]+1){
-                arr[i]=arr[i+1]+1;
+            int j=nums[i];
+            int t=i;
+            while(t+1<nums.length&&t<i+j&&!flag[t]){
+                ++t;
             }
+            flag[i]=flag[t];
         }
-        return arr[0]==0;
+        return flag[0];
     }
 }
