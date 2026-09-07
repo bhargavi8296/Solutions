@@ -1,61 +1,42 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        List<List<Integer>>list=new ArrayList<>();
-        int start=newInterval[0];
-        int end=newInterval[1];
-        int i=0;
-        boolean flag=false;
-        while(i<intervals.length)
+        int nums[][]=new int[intervals.length+1][2];
+        for(int i=0;i<intervals.length;++i)
         {
-            int s=intervals[i][0];
-            int e=intervals[i][1];
-            if(start<=e&&end>=s)
+            nums[i][0]=intervals[i][0];
+            nums[i][1]=intervals[i][1];
+        }
+        nums[intervals.length][0]=newInterval[0];
+        nums[intervals.length][1]=newInterval[1];
+        Arrays.sort(nums, (a, b) -> {
+            if (a[0] != b[0]) {
+                return a[0] - b[0];   
+            } else {
+                return a[1] - b[1];   
+            }});
+            List<List<Integer>>temp=new ArrayList<>();
+            int i=0;
+            //System.out.println(nums.length);
+            while(i<nums.length)
             {
-                int temp=e;
-                int j=i;
-                while(j<intervals.length&&end>intervals[j][1])
+                int j=i+1;
+                while(j<nums.length&&nums[j-1][0]<=nums[j][0]&&nums[j-1][1]>=nums[j][0])
                 {
-                    temp=intervals[j][0];
-                    ++j;
+                    //System.out.println(nums[j][0]+" "+nums[j][1]);
+                    nums[j][1]=Math.max(nums[j][1],nums[j-1][1]);++j;
                 }
                 List<Integer>t=new ArrayList<>();
-                t.add(Math.min(start,s));
-                temp=j<intervals.length?end<intervals[j][0]?end:intervals[j][1]:Math.max(temp,end);
-                t.add(temp);
-                list.add(t);
-                i=j<intervals.length?end<intervals[j][0]?j-1:j:j;
-                flag=true;
+                t.add(nums[i][0]);
+                t.add(nums[j-1][1]);
+                temp.add(t);
+                i=j;
             }
-            else{
-                if(!flag&&start<e&&end<e)
-                {
-                    List<Integer>t1=new ArrayList<>();
-                    t1.add(start);
-                    t1.add(end);
-                    list.add(t1);flag=true;
-                }
-                List<Integer>t=new ArrayList<>();
-                t.add(s);
-                t.add(e);
-                list.add(t);
+            int result[][]=new int[temp.size()][2];
+            for(i=0;i<temp.size();++i)
+            {
+                result[i][0]=temp.get(i).get(0);
+                result[i][1]=temp.get(i).get(1);
             }
-            ++i;
-        }
-        if(!flag)
-        {
-            List<Integer>t=new ArrayList<>();
-            t.add(start);
-            t.add(end);
-            list.add(t);
-        }
-        int result[][]=new int[list.size()][2];
-        i=0;
-        for(List<Integer>temp:list)
-        {
-            result[i][0]=temp.get(0);
-            result[i][1]=temp.get(1);
-            ++i;
-        }
-        return result;
+            return result;
     }
 }
