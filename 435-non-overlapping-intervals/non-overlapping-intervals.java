@@ -1,36 +1,18 @@
 class Solution {
     public int eraseOverlapIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> {
-            if (a[0] != b[0]) {
-                return a[0] - b[0];   
-            } else {
-                return a[1] - b[1];   
-            }});
-        int arr[]=new int[intervals.length];
-        int m=0;
-        Map<Integer,Integer>map=new HashMap<>();
-        for(int i=intervals.length-2;i>=0;--i)
-        {
-            int last=intervals[i][1];
-            int max=0;
-            if(map.containsKey(last))
+        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
+            int i=0;
+            int count=0;
+            while(i<intervals.length)
             {
-                max=map.get(last);
+                int j=i+1;
+                while(j<intervals.length&&intervals[j][0]<intervals[i][1]){++j;++count;}
+                i=j;
             }
-            else{
-                for(int j=i+1;j<intervals.length;++j)
-                {
-                    if(last<=intervals[j][0])
-                    {
-                        max=Math.max(max,arr[j]+1);
-                    }
-                }
-                map.put(last,max);
-            }
-            arr[i]=max;
-            m=Math.max(m,arr[i]);
-        }
-        return intervals.length-m-1;
+            return count;
     }
-    
 }
+// '1 2
+// 1 3
+// 2 3
+// 3 4'
