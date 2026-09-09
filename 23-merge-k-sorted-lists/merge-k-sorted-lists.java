@@ -9,88 +9,74 @@
  * }
  */
 class Solution {
-    public void helper(int start, List<Integer>list, int size)
+    List<Integer>list;
+    public void helper(int data)
     {
-    int smallest = start;
-    int left = 2 * start + 1;
-    int right = 2 * start + 2;
-
-    if(left <= size && list.get(smallest) > list.get(left))
-    {
-        smallest = left;
-    }
-    if(right <= size && list.get(smallest) > list.get(right))
-    {
-        smallest = right;
-    }
-
-    if(smallest != start)
-    {
-        int t = list.get(start);
-        list.set(start, list.get(smallest));
-        list.set(smallest, t);
-
-        helper(smallest, list, size);
-    }
-
+        list.add(data);
+        int size=list.size()-1;
+        while(size>0)
+        {
+            int par=(size-1)/2;
+            if(list.get(par)>list.get(size))
+            {
+                int temp=list.get(par);
+                list.set(par,list.get(size));
+                list.set(size,temp);
+            }
+            else{break;}
+            size=par;
+        }
     }
     public ListNode mergeKLists(ListNode[] lists) {
-        List<Integer>list=new ArrayList<>();
+        list=new ArrayList<>();
         for(int i=0;i<lists.length;++i)
         {
             ListNode temp=lists[i];
             while(temp!=null)
             {
-                list.add(temp.val);
-                int ind=list.size()-1;
-                while(ind>0)
-                {
-                    int par=(ind-1)/2;
-                    if(list.get(par)>list.get(ind))
-                    {
-                        int t=list.get(ind);
-                        list.set(ind,list.get(par));
-                        list.set(par,t);
-                    }
-                    else{
-                        break;
-                    }
-                    ind=(ind-1)/2;
-                }
+                helper(temp.val);
                 temp=temp.next;
             }
         }
         ListNode head=null;
         ListNode temp=null;
-        int size = list.size() - 1;
-
-        while(size >= 0)
+        System.out.println(list);
+        int size=list.size();
+        for(int i=0;i<size;++i)
         {
-            int val = list.get(0);
-
-            // swap root with last
-            int t = list.get(0);
-            list.set(0, list.get(size));
-            list.set(size, t);
-
-            // reduce heap
-            size--;
-
-            // heapify
-            helper(0, list, size);
-
-            // build answer
-            if(temp == null)
+            // System.out.println(list);
+            int tem=list.get(0);
+            list.set(0,list.get(list.size()-1));
+            list.set(list.size()-1,tem);
+            //System.out.println(list.get(list.size()-1));
+            ListNode t=new ListNode(list.get(list.size()-1));
+            list.remove(list.size()-1);
+            if(head==null){head=t;temp=t;}
+            else{temp.next=t;temp=t;}
+            int j=0;
+            while(true)
             {
-                temp = new ListNode(val);
-                head = temp;
+                int left=2*j+1;
+                int right=2*j+2;
+                int min=j;
+                
+                if(left>=list.size()){break;}
+                if(list.get(left)<list.get(j))
+                {
+                    min=left;
+                }
+                if(right<list.size()&&list.get(right)<list.get(min))
+                {
+                    min=right;
+                }
+                //System.out.println(j+" "+left+" "+right+" "+list.get(left)+" "+list.get(right)+" "+min);
+                if(min==j){break;}
+                tem=list.get(min);
+                list.set(min,list.get(j));
+                list.set(j,tem);
+                j=min;
             }
-            else
-            {
-                temp.next = new ListNode(val);
-                temp = temp.next;
-            }
-} 
+        }
         return head;
     }
 }
