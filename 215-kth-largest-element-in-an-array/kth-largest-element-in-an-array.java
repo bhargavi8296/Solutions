@@ -1,53 +1,63 @@
 class Solution {
-    public void helper(int start, int []arr, int size)
+    public void helper(int []heap, int i)
     {
-        int smallest=start;
-        int left=2*start+1;
-        int right=2*start+2;
-        if(left<=size&&arr[start]<arr[left])
+        while(i>0)
         {
-            smallest=left;
-        }
-        if(right<=size&&arr[smallest]<arr[right])
-        {
-            smallest=right;
-        }
-        if(smallest!=start)
-        {
-            int i=arr[start];
-            arr[start]=arr[smallest];
-            arr[smallest]=i;
-            helper(smallest,arr,size);
+            //System.out.println(i+" "+heap[i]);
+            int par=(i-1)/2;
+            if(heap[par]<heap[i])
+            {
+                int temp=heap[par];
+                heap[par]=heap[i];
+                heap[i]=temp;
+            }
+            else{
+                break;
+            }
+            i=par;
         }
     }
-    public int findKthLargest(int[] arr, int k) {
-        for(int i=1;i<arr.length;++i)
+    public int findKthLargest(int[] nums, int k) {
+        int heap[]=new int[nums.length];
+        for(int i=0;i<nums.length;++i)
         {
-            int temp=i;
-            while(temp>0)
-            {
-                int par=(temp-1)/2;
-                if(arr[par]<arr[temp])
-                {
-                    int t=arr[par];
-                    arr[par]=arr[temp];
-                    arr[temp]=t;
-                }
-                else{
-                    break;
-                }
-                temp=(temp-1)/2;
-            }
+            heap[i]=nums[i];
+            helper(heap,i);
         }
-        int size=arr.length-1;
+        // for(int i=0;i<nums.length;++i)
+        // {
+        //     System.out.println(heap[i]);
+        // }
+        int size=nums.length-1;
         for(int i=0;i<k-1;++i)
         {
-            int t=arr[0];
-            arr[0]=arr[size];
-            arr[size]=t;
+            //System.out.println(i);
+            int temp=heap[0];
+            heap[0]=heap[size];
+            heap[size]=temp;
             --size;
-            helper(0,arr,size);
+            int j=0;
+            while(true)
+            {
+                
+                int left=2*j+1;
+                int right=2*j+2;
+                int max=j;
+                if(left>size){break;}
+                if(heap[left]>heap[max])
+                {max=left;}
+                if(right<=size&&heap[right]>heap[max]){max=right;}
+                //System.out.println();
+                if(max==j){break;}
+                temp=heap[j];
+                heap[j]=heap[max];
+                heap[max]=temp;
+                j=max;
+                
+                
+            }
+
         }
-        return arr[0];
+        return heap[0];
     }
 }
