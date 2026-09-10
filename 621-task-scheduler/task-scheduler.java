@@ -1,47 +1,62 @@
 class pair{
     char ch;
-    int c;
-    pair(char ch,int c)
+    int num;
+    pair(char ch, int num)
     {
         this.ch=ch;
-        this.c=c;
+        this.num=num;
     }
 }
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-        Queue<pair>q=new PriorityQueue<>((a,b)->b.c-a.c);
-        int []val=new int[26];
+        PriorityQueue<pair>p1=new PriorityQueue<>((a,b)->b.num-a.num);
+        PriorityQueue<pair>p2=new PriorityQueue<>((a,b)->b.num-a.num);
+        Set<Character>set=new HashSet<>();
+        int arr[]=new int[26];
         for(int i=0;i<tasks.length;++i)
         {
-            //System.out.print(tasks[i]-'a');
-            val[(int)(tasks[i]-'A')]++;
+            set.add(tasks[i]);
+            arr[tasks[i]-'A']++;
         }
-        for(int i=0;i<=25;++i)
+        for(char ch:set)
         {
-            if(val[i]>0){q.add(new pair((char)('A'+i),val[i]));}
+            //System.out.println(ch+" "+arr[ch-'A']);
+            p1.add(new pair(ch,arr[ch-'A']));
         }
-        int count=0;
-        while(!q.isEmpty())
+        int result=0;
+        while(!p1.isEmpty()||!p2.isEmpty())
         {
-            int size=Math.min(n+1,q.size());
-            int temp=size;
-            count+=(n+1);
-            Queue<pair>q1=new PriorityQueue<>((a,b)->b.c-a.c);
-            while(size>0)
+            int size=p1.isEmpty()?p2.size():p1.size();
+            //System.out.println(size);
+            if(!p1.isEmpty()){
+                int si=n+1;
+            while(!p1.isEmpty()&&si>0)
             {
-                pair top=q.poll();
-                char ch=top.ch;
-                int v=top.c;
-                if(v>1)
-                {
-                    q1.add(new pair(ch,v-1));
-                }
-                --size;
+                pair temp=p1.poll();
+                temp.num--;
+                if(temp.num>0)
+                {p2.add(temp);}
+                --si;
             }
-            q.addAll(q1);
-            if(q.isEmpty())
-            {count-=(n+1-temp);}
+            while(!p1.isEmpty()){p2.add(p1.poll());}
+            }
+            else{
+                int si=n+1;
+            while(!p2.isEmpty()&&si>0)
+            {
+                pair temp=p2.poll();
+                temp.num--;
+                if(temp.num>0)
+                {p1.add(temp);}--si;
+            }
+            while(!p2.isEmpty()){p1.add(p2.poll());}
+            }
+            if(size>=n+1)
+            {
+                result+=n+1;
+            }
+            else{result+=(p1.isEmpty()&&p2.isEmpty()?size:n+1);}
         }
-        return count;
+        return result;
     }
 }
