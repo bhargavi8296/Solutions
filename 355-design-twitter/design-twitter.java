@@ -1,76 +1,58 @@
-class post{
-    int num;
-    int time;
-    post next;
-    post(int num,int time)
+class pair{
+    int num; int counter;
+    pair(int num, int counter)
     {
         this.num=num;
-        this.time=time;
+        this.counter=counter;
     }
 }
 class Twitter {
-    Map<Integer,Set<Integer>>map;
-    Map<Integer,post>map1;
-    int counter=0;
+
+    int counter;
+    Map<Integer,Queue<pair>>feed;
+    Map<Integer,Set<Integer>>follower;
     public Twitter() {
-        map=new HashMap<>();
-        map1=new HashMap<>();
+        counter=0;
+        feed=new HashMap<>();
+        follower=new HashMap<>();
     }
     
     public void postTweet(int userId, int tweetId) {
-        map.putIfAbsent(userId,new HashSet<>());
-        map.get(userId).add(userId);
-        post t=new post(tweetId,counter);++counter;
-        map1.putIfAbsent(userId, null);
-        t.next=map1.get(userId);
-        map1.put(userId,t);
+        if(!follower.containsKey(userId)){follower.put(userId,new HashSet<>());follower.get(userId).add(userId);}
+        if(!feed.containsKey(userId)){feed.put(userId,new LinkedList<>());}
+        feed.get(userId).add(new pair(tweetId,counter++));
     }
     
     public List<Integer> getNewsFeed(int userId) {
         List<Integer>result=new ArrayList<>();
-        Queue<post>q=new PriorityQueue<>((a,b)->a.time-b.time);
-        map.putIfAbsent(userId,new HashSet<>());
-        map.get(userId).add(userId);
-        for(int val:map.get(userId))
+        Queue<pair>pq=new PriorityQueue<>((a,b)->b.counter-a.counter);
+        if(follower.containsKey(userId)&&!follower.get(userId).isEmpty()){
+        for(int val:follower.get(userId)){if(feed.containsKey(val)){pq.addAll(feed.get(val));}}
+        int size=10;
+        while(size>0&&!pq.isEmpty())
         {
-            post temp=map1.get(val);
-            while(temp!=null)
-            {
-                if(q.size()<10){q.add(temp);}
-                else{
-                    if(q.peek().time<temp.time)
-                    {
-                        q.poll();
-                        q.add(temp);
-                    }
-                    else{
-                        break;
-                    }
-                }
-                temp=temp.next;
-            }
-        }
-        while(!q.isEmpty())
-        {
-            result.add(q.poll().num);
-        }
-        Collections.reverse(result);
+            int r=pq.poll().num;
+            result.add(r);
+            --size;
+        }}
         return result;
     }
     
     public void follow(int followerId, int followeeId) {
-        
-        map.putIfAbsent(followerId, new HashSet<>());
-        map.get(followerId).add(followerId);
-        map.putIfAbsent(followeeId, new HashSet<>());
-        map.get(followeeId).add(followeeId);
-        map.get(followerId).add(followeeId);
+        if(!follower.containsKey(followerId))
+        {
+            follower.put(followerId,new HashSet<>());
+            follower.get(followerId).add(followerId);
+        }
+        follower.get(followerId).add(followeeId);
     }
     
     public void unfollow(int followerId, int followeeId) {
-        if(map.containsKey(followerId))
-        {map.get(followerId).remove(followeeId);}
-        
+        if (followerId == followeeId) {
+        return;
+    }
+        if(follower.containsKey(followerId)&&follower.get(followerId).contains(followeeId))
+        {follower.get(followerId).remove(Integer.valueOf(followeeId));}
     }
 }
 
