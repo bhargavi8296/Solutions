@@ -1,46 +1,48 @@
 class MedianFinder {
-    Queue<Integer>q1;
-    Queue<Integer>q2;
-    int count;
+    PriorityQueue<Integer>p1;
+    PriorityQueue<Integer>p2;
+    int count=0;
     public MedianFinder() {
-        q2=new PriorityQueue<>((a,b)->a-b);
-        q1=new PriorityQueue<>((a,b)->b-a);
-        count=0;
+        p1=new PriorityQueue<>((a,b)->b-a);
+        p2=new PriorityQueue<>();
     }
     
     public void addNum(int num) {
-        if(q1.isEmpty()||q1.peek()>num){q1.add(num);}
-        else{q2.add(num);}
+        if(p1.isEmpty()||p1.peek()>num){p1.add(num);}
+        else{p2.add(num);}
         ++count;
-        //System.out.println(q1+" "+q2);
         if(count%2==0)
         {
-            if(q1.size()>q2.size())
+            while(!p1.isEmpty()&&p1.size()>p2.size())
             {
-                q2.add(q1.poll());
+                p2.add(p1.poll());
             }
-            else if(q2.size()>q1.size())
+            while(!p2.isEmpty()&&p2.size()>p1.size())
             {
-                q1.add(q2.poll());
+                p1.add(p2.poll());
             }
         }
         else{
-            if(q1.size()-1>q2.size())
+            while(!p1.isEmpty()&&p1.size()-1>p2.size())
             {
-                q2.add(q1.poll());
+                p2.add(p1.poll());
             }
-            else if(q2.size()>q1.size())
+            while(!p2.isEmpty()&&p2.size()>p1.size())
             {
-                q1.add(q2.poll());
+                p1.add(p2.poll());
             }
-        } 
+        }
+        
     }
     
     public double findMedian() {
-        if(count%2==0){double meadian=q1.peek();meadian+=q2.peek();return meadian/2;}
-        return q1.peek();
+        double sum=p1.peek();
+        if(count%2==0)
+        {sum+=p2.peek(); return sum/2;}
+        return sum;
     }
 }
+
 /**
  * Your MedianFinder object will be instantiated and called as such:
  * MedianFinder obj = new MedianFinder();
