@@ -1,45 +1,25 @@
 class Solution {
     public int numberOfSubstrings(String s) {
-        boolean a=false;
-        boolean b=false;
-        boolean c=false;
-        int i=0;
-        int j=0;
+        int n=s.length();
+        long total=((n)*1L*(n+1))/2;
+        int i=0;int j=0;
         int result=0;
-        int ar[]=new int[3];
+        Map<Character,Integer>map=new HashMap<>();
         while(j<s.length())
         {
-            //System.out.print(i+" ");
-            char ch=s.charAt(j);
-            ar[ch-'a']++;
-            switch(ch)
+            map.put(s.charAt(j),map.getOrDefault(s.charAt(j),0)+1);
+            while(map.size()>2)
             {
-                case 'a': a=true;break;
-                case 'b': b=true;break;
-                case 'c': c=true;break;
-            }
-            if(a&&b&&c)
-            {
-                int temp=(s.length()-j-1)+1;
-                result+=(temp);
-                while(i<s.length()&&i<=j&&a&&b&&c)
+                map.put(s.charAt(i),map.get(s.charAt(i))-1);
+                if(map.get(s.charAt(i))==0)
                 {
-                    char r=s.charAt(i);++i;
-                    ar[r-'a']--;
-                    if(ar[r-'a']==0)
-                    {
-                        switch(r)
-                        {
-                            case 'a': a=false;break;
-                            case 'b': b=false;break;
-                            case 'c': c=false;break;
-                        }
-                        break;
-                    }
-                    result+=temp;
+                    {map.remove(s.charAt(i));}
                 }
-            }++j;
+                ++i;
+            }
+            result+=(j-i+1);
+            ++j;
         }
-        return result;
+        return (int)(total-result);
     }
 }
