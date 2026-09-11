@@ -1,15 +1,23 @@
 class Solution {
-    public int numberOfSubarrays(int[] nums, int k) {
-        HashMap<Integer,Integer>map=new HashMap<>();
-        map.put(0,1);
-        int sum=0;
+    public int helper(int nums[],int k)
+    {
+        int i=0;int j=0;
+        int count=0;
         int result=0;
-        for(int i=0;i<nums.length;++i)
+        while(j<nums.length)
         {
-            sum+=(nums[i]%2==0?0:1);
-            result+=map.getOrDefault(sum-k,0);
-            map.put(sum,map.getOrDefault(sum,0)+1);
+            if(nums[j]%2==1){++count;}
+            while(count>k)
+            {
+                if(nums[i]%2==1){--count;}
+                ++i;
+            }
+            result+=(j-i+1);
+            ++j;
         }
         return result;
+    }
+    public int numberOfSubarrays(int[] nums, int k) {
+        return helper(nums,k)-helper(nums,k-1);
     }
 }
