@@ -20,16 +20,15 @@ class Solution {
         if(root==null){return null;}
         if(root.left==null&&root.right==null){prev=root;return root;}
         prev=root;
-        helper(root.left);
-        //System.out.print(root.left);
+        TreeNode left=helper(root.left);
         TreeNode temp=root.right;
-        root.right=root.left;root.left=null;
-        prev.right=temp;
-        helper(temp);
+        root.left=null;
+        root.right=left;
+        prev.right=helper(temp);
         return root;
+
     }
     public void flatten(TreeNode root) {
-        prev=null;
         helper(root);
     }
 }
