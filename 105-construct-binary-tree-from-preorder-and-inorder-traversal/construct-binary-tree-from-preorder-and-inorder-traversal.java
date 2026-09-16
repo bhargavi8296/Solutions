@@ -14,26 +14,26 @@
  * }
  */
 class Solution {
-    public TreeNode helper(int[]p, int[]i, int is, int ie, int ps, int pe)
+    public TreeNode helper(int[]preorder,int[]inorder, int is,int ie, int ps, int pe)
     {
-        if(ps>pe||is>ie){return null;}
-        if(ps==pe){return new TreeNode(p[ps]);}
+        if(is>ie||ps>pe){return null;}
+        if(is==ie){return new TreeNode(preorder[ps]);}
         int index=is;
-        for(int j=is;j<=ie;++j)
+        for(int i=is;i<=ie;++i)
         {
-            if(p[ps]==i[j])
+            if(inorder[i]==preorder[ps])
             {
-                index=j;
+                index=i;
             }
         }
-        int dif=index-is;
-        TreeNode root=new TreeNode(p[ps]);
-        root.left=helper(p,i,is,index-1,ps+1,ps+dif);
-        root.right=helper(p,i,index+1,ie,ps+dif+1,pe);
-        return root;
-       
+        int diff=index-is;
+        //System.out.println(is+" "+ie+" "+ps+" "+pe);
+        TreeNode root=new TreeNode(preorder[ps]);
+        root.left=helper(preorder,inorder,is,index-1,ps+1,ps+diff);
+        root.right=helper(preorder,inorder,index+1,ie,ps+diff+1,pe);
+        return root; 
     }
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return helper(preorder,inorder,0,inorder.length-1,0,inorder.length-1);
+        return helper(preorder,inorder, 0,preorder.length-1,0,inorder.length-1);
     }
 }
