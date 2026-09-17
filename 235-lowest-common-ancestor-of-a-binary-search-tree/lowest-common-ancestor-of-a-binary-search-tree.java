@@ -9,15 +9,13 @@
  */
 
 class Solution {
-    public TreeNode helper(TreeNode root, TreeNode p, TreeNode q)
+    public TreeNode helper(TreeNode root, int p, int q)
     {
-        if(root==null){return null;}
-        if(root.val==p.val||root.val==q.val){return root;}
-        TreeNode left=helper(root.left,p,q);
-        TreeNode right=helper(root.right,p,q);
-        return left!=null&&right!=null?root:left==null?right:left;
+        if((root.val==p||root.val==q)||(root.val>p&&root.val<q)){return root;}
+        if(root.val>p&&root.val>q){return helper(root.left,p,q);}
+        return helper(root.right,p,q);
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        return helper(root,p,q);
+        return helper(root,Math.min(p.val,q.val),Math.max(p.val,q.val));
     }
 }
