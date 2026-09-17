@@ -14,17 +14,17 @@
  * }
  */
 class Solution {
-    Set<Integer>set;
+    Map<Integer,Integer>map=new HashMap<>();
     public boolean helper(TreeNode root, int k)
     {
         if(root==null){return false;}
-        if(helper(root.left,k)){return true;}
-        if(set.contains(k-root.val)){return true;}
-        set.add(root.val);
+        boolean left=helper(root.left,k);
+        if(left){return true;}
+        if(map.containsKey(k-root.val)){return true;}
+        map.put(root.val,1);
         return helper(root.right,k);
     }
     public boolean findTarget(TreeNode root, int k) {
-        set=new HashSet<>();
         return helper(root,k);
     }
 }
