@@ -14,38 +14,25 @@
  * }
  */
 class Solution {
-    TreeNode first;
-    TreeNode second;
+    TreeNode top;
+    TreeNode prev;
     public void helper(TreeNode root)
     {
         if(root==null){return;}
         helper(root.left);
-        if(first==null||first.val<root.val)
-        {
-            if(second!=null)
-            {
-                int temp=first.val;
-                first.val=second.val;
-                second.val=temp;
-                second=null;
-            }
-            first=root;
+        if(top==null){top=root;}
+        else if(top.val>root.val){
+            prev=root;
         }
-        else{
-            second=root;
-        }
+        else if(prev==null){top=root;}
         helper(root.right);
     }
     public void recoverTree(TreeNode root) {
-        first=null;
-        second=null;
+        top=null;
+        prev=null;
         helper(root);
-         if(second!=null)
-            {
-                int temp=first.val;
-                first.val=second.val;
-                second.val=temp;
-                second=null;
-            }
+        int temp=top.val;
+        top.val=prev.val;
+        prev.val=temp;
     }
 }
