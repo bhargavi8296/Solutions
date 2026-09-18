@@ -13,64 +13,38 @@
  *     }
  * }
  */
- class pair{
-    int sum;
-    int max;
-    int min;
-    boolean flag;
-    pair(boolean flag,int min,int max,int sum)
-    {
-        this.flag=flag;
+class pair{
+     int sum;
+     int min;
+     int max;
+     boolean flag;
+     pair(int sum, int min, int max, boolean flag)
+     {
+        this.sum=sum;
         this.min=min;
         this.max=max;
-        this.sum=sum;
-    }
- }
+        this.flag=flag;
+     }
+}
 class Solution {
-    int max;
+    int max=0;
     public pair helper(TreeNode root)
     {
-        if(root==null)
-        {
-            return null;
-        }
-        if(root.left==null&&root.right==null)
-        {
-            max=Math.max(max,root.val);
-            return new pair(true,root.val,root.val,root.val);
-        }
+        if(root==null){return new pair(0,Integer.MAX_VALUE,Integer.MIN_VALUE,true);}
+        if(root.left==null&&root.right==null){max=Math.max(max,root.val);return new pair(root.val,root.val,root.val,true);}
         pair left=helper(root.left);
         pair right=helper(root.right);
-        if(left==null||right==null)
+        //System.out.println(left.min+" "+left.max+" "+right.min+" "+right.max+" "+root.val);
+        if(left.flag&&right.flag&&root.val>left.max&&root.val<right.min)
         {
-            if(left==null)
-            {
-                if(right.flag&&root.val<right.min)
-                {
-                    max=Math.max(max,Math.max(right.sum,right.sum+root.val));
-                    return new pair(true,root.val,right.max,right.sum+root.val);
-                }
-            }
-            else if(right==null)
-            {
-                if(left.flag&&root.val>left.max)
-                {
-                    max=Math.max(max,Math.max(left.sum,left.sum+root.val));
-                    return new pair(true,left.min,root.val,left.sum+root.val);
-                }
-            }
+            //System.out.println(max);
+            max=Math.max(max,left.sum+right.sum+root.val);
+            return new pair(left.sum+right.sum+root.val,Math.min(left.min,root.val),Math.max(right.max,root.val),true);
         }
-        else if(left.flag&&right.flag){
-            if(left.max<root.val&&root.val<right.min)
-            {
-                max=Math.max(max,Math.max(left.sum,Math.max(right.sum,left.sum+right.sum+root.val)));
-                return new pair(true,left.min,right.max,left.sum+right.sum+root.val);
-            }
-        }
-        return new pair(false,0,0,0);
+        return new pair(0,Integer.MIN_VALUE,Integer.MAX_VALUE,false);
+
     }
     public int maxSumBST(TreeNode root) {
-        max=0;
         helper(root);
         return max;
     }
