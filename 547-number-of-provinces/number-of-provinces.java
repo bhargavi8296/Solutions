@@ -1,40 +1,50 @@
 class Solution {
-    List<List<Integer>>list;
-    int[]visited;
-    public void helper(int i)
+    int range[];
+    int par[];
+    public int findpar(int x)
     {
-        if(visited[i]==1){return;}
-        visited[i]=1;
-        for(int val:list.get(i))
+        if(x==par[x]){return x;}
+        return par[x]=findpar(par[x]);
+    }
+    public void union(int x, int y)
+    {
+        if(range[x]>range[y])
         {
-            if(visited[val]==0)
-            {
-                helper(val);
-            }
+            range[x]+=range[y];
+            par[y]=par[x];
+        }
+        else{
+            range[y]+=range[x];
+            par[x]=par[y];
         }
     }
     public int findCircleNum(int[][] isConnected) {
-        list=new ArrayList<>();
-        visited=new int[isConnected.length];
-        for(int i=0;i<isConnected.length;++i){list.add(new ArrayList<>());}
+        par=new int[isConnected.length];
+        range=new int[isConnected.length];
+        Arrays.fill(range,1);
         for(int i=0;i<isConnected.length;++i)
         {
-            for(int j=0;j<isConnected[0].length;++j)
+            par[i]=i;
+        }
+        for(int i=0;i<isConnected.length;++i)
+        {
+            for(int j=0;j<isConnected.length;++j)
             {
-                if(i!=0&&isConnected[i][j]==1)
+                if(i!=j&&isConnected[i][j]==1)
                 {
-                    list.get(i).add(j);list.get(j).add(i);
+                    int px=findpar(i);
+                    int py=findpar(j);
+                    if(px!=py)
+                    {
+                        union(px,py);
+                    }
                 }
             }
         }
         int count=0;
         for(int i=0;i<isConnected.length;++i)
         {
-            if(visited[i]==0)
-            {
-                ++count;
-                helper(i);
-            }
+            if(i==par[i]){++count;}
         }
         return count;
     }
