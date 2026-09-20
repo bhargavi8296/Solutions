@@ -1,48 +1,42 @@
 class Solution {
-    Stack<Integer>res=new Stack<>();
-    ArrayList<ArrayList<Integer>>list;
-    int vis[];
-    public boolean dfs(int i)
-    {
-        for(int val:list.get(i))
-        {
-            if(vis[val]==0)
-            {
-                vis[val]=1;
-                if(!dfs(val)){return false;}
-                vis[val]=2;
-            }
-            else if(vis[val]==1){ return false;}
-        }
-        res.push(i);
-        return true;
-    }
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-
-        list=new ArrayList<>();
-        vis=new int[numCourses];
+        int result[]=new int[numCourses];
+        List<List<Integer>>list=new ArrayList<>();
+        List<Integer>r=new ArrayList<>();
+        int in[]=new int[numCourses];
         for(int i=0;i<numCourses;++i)
         {
             list.add(new ArrayList<>());
         }
         for(int i=0;i<prerequisites.length;++i)
         {
-            list.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            int f=prerequisites[i][0];
+            int s=prerequisites[i][1];
+            list.get(s).add(f);
+            in[f]++;
         }
+        Queue<Integer>q=new LinkedList<>();
         for(int i=0;i<numCourses;++i)
         {
-            if(vis[i]==0)
-            {
-                vis[i]=1;
-                if(!dfs(i)){return new int[0];}
-                vis[i]=2;
-            }
-        }    
-        int result[]=new int[res.size()];
-        for(int i=0;i<result.length;++i)
+            if(in[i]==0){r.add(i);q.add(i);}
+        }
+        while(!q.isEmpty())
         {
-            int val=res.pop();
-            result[i]=val;
+            int t=q.poll();
+            for(int val:list.get(t))
+            {
+                in[val]--;
+                if(in[val]==0)
+                {
+                    q.add(val);
+                    r.add(val);
+                }
+            }
+        }
+        if(r.size()<numCourses){return new int[0];}
+        for(int i=0;i<numCourses;++i)
+        {
+            result[i]=r.get(i);
         }
         return result;
     }
