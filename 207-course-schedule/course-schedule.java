@@ -1,29 +1,44 @@
 class Solution {
+    List<List<Integer>>list;
+    int visited[];
+    int pre[];
+    public boolean helper(int i)
+    {
+        for(int val:list.get(i))
+        {
+            if(visited[val]==1){return true;}
+            if(pre[val]==1){continue;}
+            pre[val]=1;
+            visited[val]=1;
+            if(helper(val)){return true;}
+            visited[val]=0;
+        }
+        return false;
+    }
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int in[]=new int[numCourses];
-        ArrayList<ArrayList<Integer>>list=new ArrayList<>();
-        for(int i=0;i<numCourses;++i){list.add(new ArrayList<>());}
+        pre=new int[numCourses];
+        list=new ArrayList<>();
+        for(int i=0;i<numCourses;++i)
+        {
+            list.add(new ArrayList<>());
+        }
         for(int i=0;i<prerequisites.length;++i)
         {
-            int f=prerequisites[i][0];
-            int s=prerequisites[i][1];
-            list.get(s).add(f);
-            in[f]++;
+            list.get(prerequisites[i][1]).add(prerequisites[i][0]);
         }
-        Queue<Integer>q=new LinkedList<>();
-        int count=0;
-        for(int i=0;i<numCourses;++i){
-            if(in[i]==0){q.add(i);++count;}
-        }
-        while(!q.isEmpty())
+        visited=new int[numCourses];
+        for(int i=0;i<numCourses;++i)
         {
-            int a=q.poll();
-            for(int val:list.get(a))
+            //System.out.println(in[i]);
+            if(visited[i]==0)
             {
-                in[val]--;
-                if(in[val]==0){q.add(val);++count;}
+                visited[i]=1;
+                pre[i]=1;
+                if(helper(i)){return false;}
+                visited[i]=0;
             }
         }
-        return count==numCourses;
+        return true;
+
     }
 }
