@@ -1,41 +1,39 @@
-import java.util.*;
-
+class pair{
+    String str;
+    int count;
+    pair(String str, int count)
+    {
+        this.str=str;
+        this.count=count;
+    }
+}
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        
-        Set<String> wordSet = new HashSet<>(wordList);
-        
-        
-        if (!wordSet.contains(endWord)) {
-            return 0;
-        }
-        
-        Queue<String> queue = new LinkedList<>();
-        queue.offer(beginWord);
-        
-        int level = 1;  
-        
-        while (!queue.isEmpty()) {
-            int size=queue.size();
-            for(int j=0;j<size;++j)
+        Queue<pair>q=new LinkedList<>();
+        q.add(new pair(beginWord,0));
+        Set<String>set=new HashSet<>();
+        set.addAll(wordList);
+        if(!wordList.contains(endWord)){return 0;}
+        set.remove(beginWord);
+        while(!q.isEmpty())
+        {
+            pair temp=q.poll();
+            String str=temp.str;
+            int count=temp.count;
+            if(str.equals(endWord)){return count+1;}
+            for(int i=0;i<str.length();++i)
             {
-                String current = queue.poll();
-                if (current.equals(endWord)) {
-                    return level;
-                }
-                for(int i=0;i<current.length();++i){
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        String newWord = current.substring(0,i)+c+current.substring(i+1);
-                        if (wordSet.contains(newWord)) {
-                            queue.offer(newWord);
-                            wordSet.remove(newWord); 
-                        }
+                for(int j=0;j<26;++j)
+                {
+                    if(str.charAt(i)!=('a'+j))
+                    {
+                        String s = str.substring(0, i) +(char)('a'+j) + str.substring(i + 1);
+                        //System.out.println(s);
+                        if(set.contains(s)){q.add(new pair(s,count+1));set.remove(s);}
                     }
                 }
             }
-            level++;
         }
-        
         return 0;
     }
 }
